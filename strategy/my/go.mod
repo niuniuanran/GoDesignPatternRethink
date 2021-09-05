@@ -1,3 +1,3 @@
-module strategy/original
+module strategy/my
 
 go 1.16
