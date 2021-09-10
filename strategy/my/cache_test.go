@@ -24,4 +24,5 @@ func getTestItem(c *cache, key string, value string) error {
 	if v != value {
 		return fmt.Errorf("Value did not match for key %s, expected %s, got %s", key, value, v)
 	}
+	return nil
 }

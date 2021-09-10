@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"sort"
 )
 
@@ -14,5 +13,4 @@ func (a ByUpdateTime) Less(i, j int) bool { return a[i].lastUpdated.Before(a[j].
 func evictFIFO(c *cache) {
 	sort.Sort(ByUpdateTime(c.items))
 	c.removeFirstItem()
-	fmt.Println("Evicting by fifo strtegy")
 }

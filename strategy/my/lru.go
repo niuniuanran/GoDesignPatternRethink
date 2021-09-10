@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"sort"
 )
 
@@ -14,5 +13,4 @@ func (a ByAccessTime) Less(i, j int) bool { return a[i].lastAccessed.Before(a[j]
 func evictLRU(c *cache) {
 	sort.Sort(ByAccessTime(c.items))
 	c.removeFirstItem()
-	fmt.Println("Evicting by lru strtegy")
 }

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"sort"
 )
 
@@ -14,5 +13,4 @@ func (a ByAccessCount) Less(i, j int) bool { return a[i].accessCount < a[j].acce
 func evictLFU(c *cache) {
 	sort.Sort(ByAccessCount(c.items))
 	c.removeFirstItem()
-	fmt.Println("Evicting by lfu strtegy")
 }

@@ -80,10 +80,7 @@ func (c *cache) printItems() {
 }
 
 func (c *cache) removeFirstItem() {
-	fmt.Print("Current items: ")
-	c.printItems()
 	toEvict := c.items[0]
-	fmt.Println("Emitting: ", toEvict.key)
 	delete(c.storage, toEvict.key)
 	c.items = c.items[1:]
 	c.capacity--
