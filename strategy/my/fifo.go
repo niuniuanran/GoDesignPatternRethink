@@ -1,10 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
-type fifo struct {
-}
+type ByUpdateTime []*item
 
-func (l *fifo) evict(c *cache) {
+func (a ByUpdateTime) Len() int           { return len(a) }
+func (a ByUpdateTime) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByUpdateTime) Less(i, j int) bool { return a[i].lastUpdated.Before(a[j].lastUpdated) }
+
+func evictFIFO(c *cache) {
+	sort.Sort(ByUpdateTime(c.items))
+	c.removeFirstItem()
 	fmt.Println("Evicting by fifo strtegy")
 }

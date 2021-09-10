@@ -1,6 +1,9 @@
 package main
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 type evictionFunc func(c *cache)
 
@@ -27,7 +30,7 @@ func initCache(e func(c *cache)) *cache {
 		items:       make([]*item, 0),
 		evictFunc:   e,
 		capacity:    0,
-		maxCapacity: 2,
+		maxCapacity: 3,
 	}
 }
 
@@ -60,5 +63,36 @@ func (c *cache) get(key string) (string, bool) {
 
 func (c *cache) evict() {
 	c.evictFunc(c)
+}
+
+func (c *cache) printItemsVerbose() {
+	fmt.Println("Key\tValue\tAccess Count\tLast Accessed\t\t\t\tLast Updated\t\t")
+	for _, i := range c.items {
+		fmt.Printf("%s\t%s\t%d\t\t%s\t%s\t\n", i.key, i.value, i.accessCount, i.lastAccessed, i.lastUpdated)
+	}
+}
+
+func (c *cache) printItems() {
+	for _, i := range c.items {
+		fmt.Print(i.key, " ")
+	}
+	fmt.Println()
+}
+
+func (c *cache) removeFirstItem() {
+	fmt.Print("Current items: ")
+	c.printItems()
+	toEvict := c.items[0]
+	fmt.Println("Emitting: ", toEvict.key)
+	delete(c.storage, toEvict.key)
+	c.items = c.items[1:]
 	c.capacity--
+}
+
+func (c *cache) clear() {
+	for k := range c.storage {
+		delete(c.storage, k)
+	}
+	c.items = make([]*item, 0)
+	c.capacity = 0
 }
