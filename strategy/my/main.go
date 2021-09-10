@@ -1,7 +1,7 @@
 package main
 
 func main() {
-	cache := initCache(evictFIFO)
+	cache := initCache(evictFIFO, 2)
 	cache.add("a", "1")
 	cache.add("b", "2")
 	cache.get("a")

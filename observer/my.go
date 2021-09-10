@@ -9,9 +9,9 @@ type subject interface {
 }
 
 type item struct {
-	observerFuncs map[string]func(string)
-	name          string
-	inStock       bool
+	notifyFuncs map[string]func(string)
+	name        string
+	inStock     bool
 }
 
 func newItem(name string) *item {
@@ -27,19 +27,19 @@ func (i *item) updateAvailability() {
 }
 
 func (i *item) register(id string) {
-	if i.observerFuncs == nil {
-		i.observerFuncs = map[string]func(string){}
+	if i.notifyFuncs == nil {
+		i.notifyFuncs = map[string]func(string){}
 	}
-	i.observerFuncs[id] = customerNotificationFunc(id)
+	i.notifyFuncs[id] = customerNotificationFunc(id)
 }
 
 func (i *item) deregister(id string) {
-	delete(i.observerFuncs, id)
+	delete(i.notifyFuncs, id)
 }
 
 func (i *item) notifyAll() {
-	for _, observerFunc := range i.observerFuncs {
-		observerFunc(i.name)
+	for _, notifyFunc := range i.notifyFuncs {
+		notifyFunc(i.name)
 	}
 }
 

@@ -23,14 +23,14 @@ type item struct {
 	accessCount  int
 }
 
-func initCache(e func(c *cache)) *cache {
+func initCache(e func(c *cache), maxCapacity int) *cache {
 	storage := make(map[string]*item)
 	return &cache{
 		storage:     storage,
 		items:       make([]*item, 0),
 		evictFunc:   e,
 		capacity:    0,
-		maxCapacity: 3,
+		maxCapacity: maxCapacity,
 	}
 }
 
